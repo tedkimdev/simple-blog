@@ -2,16 +2,23 @@ import React from 'react';
 import styles from './PostInfo.scss';
 import classNames from 'classnames/bind';
 
+import { Link } from 'react-router-dom';
+import moment from 'moment';
+
 const cx = classNames.bind(styles);
 
-const PostInfo = () => (
+const PostInfo = ({publishedDate, title, tags}) => (
   <div className={cx('post-info')}>
     <div className={cx('info')}>
-      <h1>Title</h1>
+      <h1>{title}</h1>
       <div className={cx('tags')}>
-        <a>#tag</a> <a>#tag</a> <a>#tag</a>
+        {
+          tags && tags.map(
+            tag => <Link key={tag} to={`/tag/${tag}`}>#{tag}</Link>
+          ) 
+        }
       </div>
-      <div className={cx('date')}>Oct 29, 2018</div>
+      <div className={cx('date')}>{moment(publishedDate).format('ll')}</div>
     </div>
   </div>
 );
