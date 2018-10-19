@@ -1,0 +1,35 @@
+import React from 'react';
+
+export default function asyncComponent(getComponent) {
+  class AsyncComponent extends React.Component {
+    static Component = null;
+
+    state = { Component: AsyncComponent.Component };
+
+    constructor(props) {
+      super(props);
+      if(AsyncComponent.Component) return;
+      getComponent().then(({default: Component}) => {
+        AsyncComponent.Component = Component;
+        this.setState({ Component });
+      });
+    }
+
+    render() {
+      const { Component } = this.state;
+      if(Component) {
+        return <Component {...this.props} />
+      }
+      return null;
+    }
+  }
+
+  // resolve conflicts server side rendering/code splitting
+  AsyncComponent.getComponent = () => {
+    return getComponent().then(({defualt: Component}) => {
+      AsyncComponent.Component = Component;
+    })
+  }
+
+  return AsyncComponent;
+}
