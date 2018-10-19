@@ -135,6 +135,14 @@ exports.update = async (ctx) => {
   }
 };
 
+exports.checkLogin = (ctx, next) => {
+  if(!ctx.session.logged) {
+    ctx.status = 401; //Unauthorized
+    return null;
+  }
+  return next();
+};
+
 // let postId = 1;
 
 // const posts = [
