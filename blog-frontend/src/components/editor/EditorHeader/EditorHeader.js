@@ -5,14 +5,14 @@ import Button from 'components/common/Button';
 
 const cx = classNames.bind(styles);
 
-const EditorHeader = ({onGoBack, onSubmit}) => {
+const EditorHeader = ({onGoBack, onSubmit, isEdit}) => {
   return (
     <div className={cx('editor-header')}>
       <div className={cx('back')}>
         <Button onClick={onGoBack} theme="outline">Go Back</Button>
       </div>
       <div className={cx('submit')}>
-        <Button onClick={onSubmit} theme="outline">Complete</Button>
+        <Button onClick={onSubmit} theme="outline">{isEdit ? 'Edit Complete' : 'Complete'}</Button>
       </div>
     </div>
   );
