@@ -2,17 +2,21 @@ import React, { Component } from 'react';
 import styles from './EditorPane.scss';
 import classnames from 'classnames/bind';
 
-import CodeMirror from 'codemirror';
-import 'codemirror/mode/markdown/markdown'; //markdown syntax color
-// code color in markdown
-import 'codemirror/mode/javascript/javascript';
-import 'codemirror/mode/jsx/jsx';
-import 'codemirror/mode/css/css';
-import 'codemirror/mode/shell/shell';
-
 // css sytle for CodeMirror
 import 'codemirror/lib/codemirror.css';
 import 'codemirror/theme/monokai.css';
+
+let CodeMirror = null;
+const isBrowser = process.env.APP_ENV === 'browser';
+if(isBrowser) {
+  CodeMirror = require('codemirror');
+  require('codemirror/mode/markdown/markdown'); //markdown syntax color
+  // code color in markdown
+  require('codemirror/mode/javascript/javascript');
+  require('codemirror/mode/jsx/jsx');
+  require('codemirror/mode/css/css');
+  require('codemirror/mode/shell/shell');
+}
 
 const cx = classnames.bind(styles);
 

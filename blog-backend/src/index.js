@@ -9,6 +9,7 @@ const api = require('./api');
 
 const session = require('koa-session');
 
+const ssr = require('./ssr');
 
 const {
   PORT: port = 4000,
@@ -28,6 +29,11 @@ const router = new Router();
 
 // Setting router
 router.use('/api', api.routes());
+router.get('/', ssr);
+
+const path = require('path');
+const serve = require('koa-static');
+const staticPath = path.join(__dirname, '../../blog-frontend/build');
 
 // Applying bodyParser
 app.use(bodyParser());
@@ -43,6 +49,9 @@ app.keys = [signKey];
 
 // Applying router
 app.use(router.routes()).use(router.allowedMethods());
+
+app.use(serve(staticPath));
+app.use(ssr);
 
 app.listen(port, () => {
   console.log('listening to port', port);
