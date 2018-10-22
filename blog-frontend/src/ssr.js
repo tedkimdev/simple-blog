@@ -38,13 +38,19 @@ const render = async (ctx) => {
 
   }
 
+  const context = {};
+
   const html = ReactDOMServer.renderToString(
     <Provider store={store}>
-      <StaticRouter location={url}>
+      <StaticRouter location={url} context={context}>
         <App/>
       </StaticRouter>
     </Provider>
   );
+
+  if(context.isNotFound) {
+    ctx.status = 404;
+  }
 
   const preloadedState = JSON.stringify(transit.toJSON(store.getState()))
     .replace(/</g, '\\u003c');
